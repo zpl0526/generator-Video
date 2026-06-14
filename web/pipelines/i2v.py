@@ -17,7 +17,6 @@ from web.pipelines.api_workflows import (
     workflow_source_help,
     workflow_source_label,
 )
-from web.components.content_input import render_version_info
 from web.utils.async_helpers import run_async
 from web.utils.history_persistence import save_web_generation_history
 from web.utils.streamlit_helpers import check_and_warn_selfhost_workflow
@@ -50,7 +49,6 @@ class ImageToVideoPipelineUI(PipelineUI):
         # ====================================================================
         with left_col:
             asset_params = self.render_audio_visual_input(pixelle_video)
-            render_version_info()
 
         # ====================================================================
         # Right Column: Output Preview

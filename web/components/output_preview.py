@@ -62,7 +62,41 @@ def render_single_output(pixelle_video, video_params):
     workflow_key = video_params.get("media_workflow")
     api_video_params = video_params.get("api_video_params")
     prompt_prefix = video_params.get("prompt_prefix", "")
-    
+
+    # ====================================================================
+    # Subtitle toggle (independent right-column widget, sits above the
+    # generate button). Rendered as a selectbox to match the look of the
+    # other dropdown-driven options in the page (TTS voice, template, etc.).
+    # The boolean is folded back into `template_params` so the existing
+    # frame_processor pickup at `_compose_frame_html` keeps working.
+    # ====================================================================
+    with st.container(border=True):
+        st.markdown(f"**{tr('section.subtitle')}**")
+
+        # Selectbox is purely an interaction-style change: same boolean
+        # value, same downstream contract — only the widget type differs.
+        subtitle_options = {
+            True: tr('template.show_subtitle_option_on'),
+            False: tr('template.show_subtitle_option_off'),
+        }
+        show_subtitle = st.selectbox(
+            tr('template.show_subtitle'),
+            options=list(subtitle_options.keys()),
+            format_func=lambda v: subtitle_options[v],
+            index=1,  # default: OFF
+            key="quick_create_show_subtitle",
+            help=tr('template.show_subtitle_help'),
+        )
+        if show_subtitle:
+            st.caption(tr('template.show_subtitle_on_hint'))
+        else:
+            st.caption(tr('template.show_subtitle_off_hint'))
+
+    # Persist back into the params dict that downstream code reads.
+    custom_values_for_video = dict(custom_values_for_video) if custom_values_for_video else {}
+    custom_values_for_video["show_subtitle"] = bool(show_subtitle)
+    video_params["template_params"] = custom_values_for_video
+
     with st.container(border=True):
         st.markdown(f"**{tr('section.video_generation')}**")
         
