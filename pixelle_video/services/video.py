@@ -790,6 +790,11 @@ class VideoService:
             
             # Combine image and audio
             # Use -t to explicitly set video duration = audio duration
+            # Encoding: rely on CRF for quality (no bitrate ceiling). The old
+            # b:v=2M cap throttled gradients/motion frames into visible
+            # blocking; CRF 18 + medium preset produces visually transparent
+            # output at template resolution while still letting libx264 spend
+            # whatever bits a static frame happens to need.
             (
                 ffmpeg
                 .output(
@@ -802,8 +807,7 @@ class VideoService:
                     pix_fmt='yuv420p',
                     audio_bitrate='192k',
                     preset='medium',
-                    crf=23,
-                    **{'b:v': '2M'}  # Video bitrate
+                    crf=18,
                 )
                 .overwrite_output()
                 .run(capture_stdout=True, capture_stderr=True)
