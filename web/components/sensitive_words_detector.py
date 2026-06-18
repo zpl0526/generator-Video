@@ -103,6 +103,7 @@ def render_sensitive_words_detector():
             type="primary",
             key="sensitive_words_detector_detect_btn",
         ):
+            st.session_state.sensitive_words_detector_result = None
             if not document.strip():
                 st.warning(tr("sensitive_words_detector.empty_input_warning"))
                 return

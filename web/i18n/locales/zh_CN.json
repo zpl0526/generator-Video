@@ -289,7 +289,7 @@
     "sensitive_words_detector.input_placeholder": "请输入或粘贴需要检测的脚本文案...",
     "sensitive_words_detector.input_help": "支持短视频脚本、口播文案、商品推广文案等。",
     "sensitive_words_detector.detect_btn": "AI 检测",
-    "sensitive_words_detector.detecting": "正在调用 AI 检测...",
+    "sensitive_words_detector.detecting": "正在进行敏感词检测...",
     "sensitive_words_detector.result_title": "检测结果",
     "sensitive_words_detector.empty_input_warning": "请先输入需要检测的文案。",
     "sensitive_words_detector.detect_failed": "检测失败",
