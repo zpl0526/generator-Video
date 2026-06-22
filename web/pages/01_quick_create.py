@@ -16,7 +16,7 @@ from web.i18n import tr
 bootstrap()
 
 render_section_title(
-    title=f"⚡ {tr('pipeline.quick_create.name', fallback='快速创造')}",
+    title=f"{tr('pipeline.quick_create.name', fallback='快速创造')}",
     subtitle=tr(
         "pipeline.quick_create.description",
         fallback="输入一个想法，AI 自动完成创意管线，一键产出完整视频。",

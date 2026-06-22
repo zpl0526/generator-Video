@@ -16,7 +16,7 @@ from web.i18n import tr
 bootstrap()
 
 render_section_title(
-    title=f"🖼 {tr('pipeline.custom_media.name', fallback='素材成片')}",
+    title=f"{tr('pipeline.custom_media.name', fallback='素材成片')}",
     subtitle=tr(
         "pipeline.custom_media.description",
         fallback="上传你的图片或视频素材，AI 自动生成视频脚本与成片。",

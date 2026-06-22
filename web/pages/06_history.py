@@ -349,7 +349,7 @@ else:
         st.session_state.history_page = 1
 
     render_section_title(
-        title=f"📚 {tr('history.page_title')}",
+        title=f"{tr('history.page_title')}",
         subtitle=tr("history.page_subtitle", fallback="按创建时间倒序展示历史生成任务"),
     )
 

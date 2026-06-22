@@ -17,7 +17,7 @@ from web.i18n import tr
 bootstrap()
 
 render_section_title(
-    title=tr('settings.title', fallback='⚙️ 系统配置'),
+    title=tr('settings.title', fallback='系统配置'),
     subtitle=tr(
         "settings.subtitle",
         fallback="配置 LLM、ComfyUI、API 提供商等参数。",

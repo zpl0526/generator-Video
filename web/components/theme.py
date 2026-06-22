@@ -16,7 +16,6 @@ and a professional, polished look.
 
 import streamlit as st
 
-
 _THEME_CSS = """
 <style>
 /* ===== Design tokens =============================================== */
@@ -248,18 +247,27 @@ section[data-testid="stMain"] > div.block-container,
 
 /* ===== Sidebar — light rail ====================================== */
 section[data-testid="stSidebar"] {
+    --pv-sidebar-x: 18px;
     background: linear-gradient(180deg, #ffffff 0%, #fafbff 100%) !important;
     border-right: 1px solid var(--pv-border) !important;
     box-shadow: 1px 0 0 rgba(20, 28, 56, 0.02);
-    width: 268px !important;
-    min-width: 268px !important;
-    max-width: 268px !important;
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+    height: 100vh !important;
     transform: none !important;
     visibility: visible !important;
+    overflow: hidden !important;
 }
 section[data-testid="stSidebar"] > div:first-child {
     padding-top: 1rem;
-    width: 268px !important;
+    width: 200px !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain !important;
+    scrollbar-gutter: stable;
     background: transparent !important;
 }
 button[data-testid="stSidebarCollapseButton"],
@@ -279,25 +287,92 @@ button[data-testid="baseButton-headerNoPadding"],
     max-height: none !important;
     overflow: visible !important;
     list-style: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+[data-testid="stSidebarNav"] ul li {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+/* Push each nav section (the group container) to the right so the
+   title AND its child links align visually under the indented heading. */
+[data-testid="stSidebarNav"] > ul > div,
+[data-testid="stSidebarNav"] section {
+    padding-left: 14px !important;
 }
 /* Section dividers (st.navigation dict keys) */
 [data-testid="stSidebarNav"] section > div > span,
-[data-testid="stSidebarNav"] > div > div > span {
+[data-testid="stSidebarNav"] > div > div > span,
+[data-testid="stSidebarNav"] .pv-sidebar-section-title {
     text-transform: uppercase !important;
     letter-spacing: 0.10em !important;
     font-size: 0.85rem !important;
     color: var(--pv-text) !important;
     font-weight: 800 !important;
     font-family: 'Inter', sans-serif !important;
-    padding: 16px 18px 8px 18px !important;
+    padding: 10px calc(var(--pv-sidebar-x) + 22px) 10px calc(var(--pv-sidebar-x) + 14px) !important;
+    margin: 6px 6px 2px 0 !important;
+    text-indent: 16px !important;
+    word-spacing: 5px !important;
     display: block;
+    position: relative !important;
+    border-radius: 10px !important;
+    border: 1px solid transparent !important;
+    cursor: pointer !important;
+}
+/* Push the inner text/children to the right too, in case Streamlit
+   wraps the title label in a nested element that ignores parent padding. */
+[data-testid="stSidebarNav"] section > div > span > *,
+[data-testid="stSidebarNav"] > div > div > span > *,
+[data-testid="stSidebarNav"] .pv-sidebar-section-title > *:not(.pv-sidebar-chevron) {
+    margin-left: 0 !important;
+}
+[data-testid="stSidebarNav"] .pv-sidebar-chevron {
+    position: absolute;
+    right: var(--pv-sidebar-x);
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid #4b5563;
+    border-right: none;
+    transform: translateY(-50%) rotate(0deg);
+    transform-origin: 3px 50%;
+    transition: transform .18s ease, border-left-color .18s ease;
+    pointer-events: none;
+}
+[data-testid="stSidebarNav"] section.pv-sidebar-nav-expanded .pv-sidebar-chevron {
+    transform: translateY(-50%) rotate(90deg);
+}
+[data-testid="stSidebarNav"] section > div > span:hover .pv-sidebar-chevron,
+[data-testid="stSidebarNav"] .pv-sidebar-section-title:hover .pv-sidebar-chevron,
+[data-testid="stSidebarNav"] section.pv-sidebar-nav-expanded .pv-sidebar-chevron {
+    border-left-color: var(--pv-brand);
+}
+[data-testid="stSidebarNav"] section > div > span:hover,
+[data-testid="stSidebarNav"] > div > div > span:hover,
+[data-testid="stSidebarNav"] .pv-sidebar-section-title:hover {
+    background: var(--pv-brand-soft) !important;
+    color: var(--pv-brand) !important;
+    border-color: rgba(79, 70, 229, 0.14) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+[data-testid="stSidebarNav"] section.pv-sidebar-nav-expanded > div > span,
+[data-testid="stSidebarNav"] section.pv-sidebar-nav-expanded .pv-sidebar-section-title {
+    background: var(--pv-brand-soft) !important;
+    color: var(--pv-brand) !important;
+    border-color: rgba(79, 70, 229, 0.14) !important;
 }
 /* Nav items — no motion, just color state changes */
 [data-testid="stSidebarNav"] ul li a,
 [data-testid="stSidebarNavLink"] {
     border-radius: 10px !important;
-    padding: 12px 14px !important;
-    margin: 4px 10px !important;
+    min-height: 32px !important;
+    box-sizing: border-box !important;
+    padding: 6px var(--pv-sidebar-x) !important;
+    margin: 1px 0 !important;
     transition: none !important;
     color: var(--pv-text-soft) !important;
     font-weight: 600 !important;
@@ -1051,16 +1126,128 @@ def _build_persistent_loader() -> str:
       head.appendChild(bg);
     }}
 
-    // 3. Main theme stylesheet — inject once, reuse across reruns
-    var existing = doc.getElementById('pv-theme-css');
+    // 3. Main theme stylesheet — inject once, reuse across reruns.
+    //    Bump the version suffix whenever the CSS body changes so that
+    //    older injected nodes are evicted (otherwise the parent <head>
+    //    keeps serving stale CSS across page navigations / reruns).
+    var THEME_ID = 'pv-theme-css-v9';
+    ['pv-theme-css', 'pv-theme-css-v2', 'pv-theme-css-v3', 'pv-theme-css-v4', 'pv-theme-css-v5', 'pv-theme-css-v6', 'pv-theme-css-v7', 'pv-theme-css-v8'].forEach(function(oldId) {{
+      var stale = doc.getElementById(oldId);
+      if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+    }});
+    var existing = doc.getElementById(THEME_ID);
     if (!existing) {{
       var st = doc.createElement('style');
-      st.id = 'pv-theme-css';
+      st.id = THEME_ID;
       st.textContent = `{js_safe_css}`;
       head.appendChild(st);
     }}
   }} catch (e) {{ /* ignore */ }}
 }})();
+</script>
+"""
+
+
+_SIDEBAR_NAV_JS = """
+<script>
+(function() {
+  const ROOT_DOC = window.parent.document;
+  const NAV_READY = 'pv-sidebar-nav-ready';
+  const COLLAPSED = 'pv-sidebar-nav-collapsed';
+  const EXPANDED = 'pv-sidebar-nav-expanded';
+  const CHEVRON = 'pv-sidebar-chevron';
+
+  function getNavSections() {
+    const nav = ROOT_DOC.querySelector('[data-testid="stSidebarNav"]');
+    if (!nav) return [];
+    return Array.from(nav.querySelectorAll('section')).filter(function(section) {
+      return section.querySelector('[data-testid="stSidebarNavLink"], ul li a');
+    });
+  }
+
+  function setLinksVisible(section, visible) {
+    section.querySelectorAll('[data-testid="stSidebarNavLink"], ul li a').forEach(function(link) {
+      const item = link.closest('li') || link;
+      item.style.display = visible ? '' : 'none';
+    });
+  }
+
+  function setCollapsed(section, collapsed) {
+    section.classList.toggle(COLLAPSED, collapsed);
+    section.classList.toggle(EXPANDED, !collapsed);
+    setLinksVisible(section, !collapsed);
+  }
+
+  function getSectionTitle(section) {
+    const directTitle = section.querySelector(':scope > div > span')
+        || section.querySelector(':scope > div [role="button"]')
+        || section.querySelector(':scope > div');
+    if (directTitle && !directTitle.querySelector('[data-testid="stSidebarNavLink"], a')) {
+      return directTitle;
+    }
+    return section.querySelector('span:not(.pv-sidebar-chevron)')
+        || section.querySelector('p')
+        || section.firstElementChild;
+  }
+
+  function resetSectionCollapsedState(section, title) {
+    setCollapsed(section, true);
+    title.setAttribute('aria-expanded', 'false');
+  }
+
+  function ensureChevron(title) {
+    if (title.querySelector('.' + CHEVRON)) return;
+    const chevron = ROOT_DOC.createElement('span');
+    chevron.className = CHEVRON;
+    chevron.setAttribute('aria-hidden', 'true');
+    title.appendChild(chevron);
+  }
+
+  function enhanceSection(section, resetCollapsed) {
+    const title = getSectionTitle(section);
+    if (!title) return;
+
+    title.classList.add('pv-sidebar-section-title');
+    ensureChevron(title);
+
+    if (resetCollapsed) resetSectionCollapsedState(section, title);
+
+    if (section.dataset[NAV_READY] === '1') return;
+
+    section.dataset[NAV_READY] = '1';
+    title.setAttribute('role', 'button');
+    title.setAttribute('tabindex', '0');
+
+    const toggle = function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      const nextCollapsed = !section.classList.contains(COLLAPSED);
+      setCollapsed(section, nextCollapsed);
+      title.setAttribute('aria-expanded', nextCollapsed ? 'false' : 'true');
+    };
+
+    title.addEventListener('click', toggle);
+    title.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' || event.key === ' ') toggle(event);
+    });
+  }
+
+  function enhanceSidebarNav(resetCollapsed) {
+    getNavSections().forEach(function(section) {
+      enhanceSection(section, resetCollapsed);
+    });
+  }
+
+  enhanceSidebarNav(true);
+
+  if (!window.__pv_sidebar_nav_observer__) {
+    const observer = new MutationObserver(function() {
+      enhanceSidebarNav(false);
+    });
+    observer.observe(ROOT_DOC.body, { childList: true, subtree: true });
+    window.__pv_sidebar_nav_observer__ = observer;
+  }
+})();
 </script>
 """
 
@@ -1089,7 +1276,17 @@ def inject_theme() -> None:
     except Exception:
         # Fallback: try markdown — works on older streamlit versions
         st.markdown(_build_persistent_loader(), unsafe_allow_html=True)
+    _inject_sidebar_nav_behavior()
     _inject_panel_marker()
+
+
+def _inject_sidebar_nav_behavior() -> None:
+    """Inject sidebar navigation collapse behavior."""
+    try:
+        from streamlit.components.v1 import html as _components_html
+        _components_html(_SIDEBAR_NAV_JS, height=0, width=0)
+    except Exception:
+        st.markdown(_SIDEBAR_NAV_JS, unsafe_allow_html=True)
 
 
 # Streamlit 1.30+ no longer emits a stable testid on bordered containers;

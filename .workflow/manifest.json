@@ -1,5 +1,23 @@
 {
   "features": {
+    "menu-sidebar-ui-optimization": {
+      "name": "菜单栏 UI 优化",
+      "status": "done",
+      "branch": "feature/2026-06-18-ai-rewrite",
+      "created_at": "2026-06-18",
+      "steps_completed": ["step1", "step2", "step3", "step4", "step5", "step6", "step7"],
+      "test_mode": "tdd",
+      "notes": ["用户选择在当前 AI 仿写分支继续实现菜单栏 UI 优化，不单独创建新分支。", "TDD 模式下 Step 5 合并到 Step 4。"]
+    },
+    "ai-rewrite": {
+      "name": "脚本创作 AI 仿写",
+      "status": "done",
+      "branch": "feature/2026-06-18-ai-rewrite",
+      "created_at": "2026-06-18",
+      "steps_completed": ["step1", "step2", "step3", "step4", "step5", "step6", "step7"],
+      "test_mode": "tdd",
+      "notes": ["TDD 模式下 Step 5 合并到 Step 4；全仓库 ruff 存在既有问题，本次改动文件 ruff 通过。"]
+    },
     "sensitive-words-detection": {
       "name": "脚本创作敏感词检测",
       "status": "done",
@@ -11,6 +29,14 @@
     }
   },
   "bugs": {
+    "sidebar-nav-refresh-not-collapsed": {
+      "name": "刷新页面后一级菜单未恢复收起状态",
+      "status": "done",
+      "branch": "feature/2026-06-18-ai-rewrite",
+      "root_cause": "导航增强脚本把事件绑定幂等标记和默认收起状态初始化耦合在一起，已 ready 的 section 会跳过 setCollapsed(section, true)，导致刷新或 rerun 后已展开状态可能被保留。",
+      "created_at": "2026-06-18",
+      "steps_completed": ["step1", "step2", "step3", "step4", "step5"]
+    },
     "sensitive-words-detector-uninitialized-llm": {
       "name": "敏感词检测点击 AI 检测时报 NoneType object is not callable",
       "status": "done",

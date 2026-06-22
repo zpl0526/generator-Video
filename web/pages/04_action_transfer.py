@@ -16,7 +16,7 @@ from web.i18n import tr
 bootstrap()
 
 render_section_title(
-    title=f"🤸 {tr('pipeline.action_transfer.name', fallback='动作迁移')}",
+    title=f"{tr('pipeline.action_transfer.name', fallback='动作迁移')}",
     subtitle=tr(
         "pipeline.action_transfer.description",
         fallback="一张图、一段视频，复刻精彩动作。",

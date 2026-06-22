@@ -16,7 +16,7 @@ from web.i18n import tr
 bootstrap()
 
 render_section_title(
-    title=f"🎥 {tr('pipeline.i2v.name', fallback='图生视频')}",
+    title=f"{tr('pipeline.i2v.name', fallback='图生视频')}",
     subtitle=tr(
         "pipeline.i2v.description",
         fallback="输入图片和提示词，AI 即刻生成视频。",

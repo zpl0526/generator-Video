@@ -16,7 +16,7 @@ from web.i18n import tr
 bootstrap()
 
 render_section_title(
-    title=f"👤 {tr('pipeline.digital_human.name', fallback='数字人口播')}",
+    title=f"{tr('pipeline.digital_human.name', fallback='数字人口播')}",
     subtitle=tr(
         "pipeline.digital_human.description",
         fallback="用文本 + 两张图 + 一段音频，生成一段数字人视频。",

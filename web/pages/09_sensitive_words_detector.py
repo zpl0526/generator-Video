@@ -15,7 +15,7 @@ from web.utils.page_bootstrap import bootstrap
 bootstrap()
 
 render_section_title(
-    title=tr("sensitive_words_detector.title", fallback="🧪 敏感词检测"),
+    title=tr("sensitive_words_detector.title", fallback="敏感词检测"),
     subtitle=tr(
         "sensitive_words_detector.subtitle",
         fallback="输入文案后，AI 将结合 sensitive_words.md 给出检测结果和修改意见。",

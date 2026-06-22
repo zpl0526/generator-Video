@@ -40,62 +40,74 @@ st.set_page_config(
 )
 
 
+def get_navigation_group_labels() -> dict[str, str]:
+    """Return sidebar navigation group labels with functional icons."""
+    return {
+        "video_creation": "🎬 视频创作",
+        "script_creation": "✍️ 脚本创作",
+        "video_management": "📚 视频管理",
+        "system_management": "⚙️ 系统管理",
+    }
+
+
 def main():
     """Main entry point with grouped navigation."""
+    group_labels = get_navigation_group_labels()
     # Pages — file paths are relative to this app.py location
     quick_create = st.Page(
         "pages/01_quick_create.py",
         title="快速创造",
-        icon="⚡",
         default=True,
     )
     digital_human = st.Page(
         "pages/02_digital_human.py",
         title="数字人口播",
-        icon="👤",
     )
     image_to_video = st.Page(
         "pages/03_image_to_video.py",
         title="图生视频",
-        icon="🎥",
     )
     action_transfer = st.Page(
         "pages/04_action_transfer.py",
         title="动作迁移",
-        icon="🤸",
     )
     asset_based = st.Page(
         "pages/05_asset_based.py",
         title="素材成片",
-        icon="🖼",
     )
     history = st.Page(
         "pages/06_history.py",
         title="历史记录",
-        icon="📚",
     )
     settings = st.Page(
         "pages/07_settings.py",
         title="系统配置",
-        icon="⚙",
     )
     sensitive_words = st.Page(
         "pages/08_sensitive_words.py",
         title="敏感词配置",
-        icon="🛡️",
     )
     sensitive_words_detector = st.Page(
         "pages/09_sensitive_words_detector.py",
         title="敏感词检测",
-        icon="🧪",
+    )
+    ai_rewrite = st.Page(
+        "pages/10_ai_rewrite.py",
+        title="AI仿写",
     )
 
     pg = st.navigation(
         {
-            "视频创作": [quick_create, digital_human, image_to_video, action_transfer, asset_based],
-            "脚本创作": [sensitive_words_detector],
-            "视频管理": [history],
-            "系统管理": [settings, sensitive_words],
+            group_labels["video_creation"]: [
+                quick_create,
+                digital_human,
+                image_to_video,
+                action_transfer,
+                asset_based,
+            ],
+            group_labels["script_creation"]: [ai_rewrite, sensitive_words_detector],
+            group_labels["video_management"]: [history],
+            group_labels["system_management"]: [settings, sensitive_words],
         }
     )
     pg.run()
